@@ -9,6 +9,7 @@ using Android.Views;
 using Android.Views.Accessibility;
 using Android.Widget;
 using ReelCounter.Services;
+using Color = Android.Graphics.Color;
 
 namespace ReelCounter;
 
