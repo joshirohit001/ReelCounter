@@ -35,7 +35,7 @@ public class ReelAccessibilityService : AccessibilityService
     bool _shown;
     long _lastCount;
     readonly Handler _ui = new(Looper.MainLooper!);
-    readonly Action _onStatsChanged;
+    readonly System.Action _onStatsChanged;
 
     public ReelAccessibilityService() => _onStatsChanged = () => _ui.Post(Refresh);
 
