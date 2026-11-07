@@ -1,0 +1,65 @@
+@implements IDisposable
+
+<div class="wrap">
+    <h1>🎞 Reel Counter</h1>
+
+    @if (!_enabled)
+    {
+        <div class="card warn">
+            <b>Turn it on</b>
+            <p>Settings → Accessibility → Installed apps → <b>Reel Counter</b> → On.</p>
+            <button @onclick="AccessibilityHelper.OpenAccessibilitySettings">Open Accessibility Settings</button>
+            <p class="hint">Option greyed out (Android 13+ sideloaded app)? Open App info → ⋮ → <i>Allow restricted settings</i>, then try again.</p>
+            <button class="ghost" @onclick="AccessibilityHelper.OpenAppInfo">Open App Info</button>
+        </div>
+    }
+    else
+    {
+        <div class="card ok">✅ Tracking is active. Open Instagram / YouTube Shorts and scroll.</div>
+    }
+
+    <div class="card big @(_window >= ReelStats.Limit ? "alert" : "")">
+        <span class="num">@_window</span>
+        <small>reels in the last 30 min (limit @ReelStats.Limit)</small>
+    </div>
+
+    <div class="card">
+        <div class="row"><span>Today</span><b>@_today</b></div>
+    </div>
+
+    @if (_window >= ReelStats.Limit)
+    {
+        <div class="card alert">⚠ You've scrolled @_window reels in 30 minutes. Put the phone down and take a break!</div>
+    }
+
+    <button class="ghost" @onclick="ReelStats.Reset">Reset counters</button>
+</div>
+
+@code {
+    int _window, _today;
+    bool _enabled;
+    Timer? _timer;
+
+    protected override void OnInitialized()
+    {
+        Load();
+        ReelStats.Changed += OnChanged;
+        // Re-check every 2 s so the 30-min window expires and the "enabled" status updates.
+        _timer = new Timer(_ => OnChanged(), null, 2000, 2000);
+    }
+
+    void Load()
+    {
+        _window = ReelStats.InWindow;
+        _today = ReelStats.Today;
+        _enabled = AccessibilityHelper.IsServiceEnabled();
+    }
+
+    void OnChanged() => InvokeAsync(() => { Load(); StateHasChanged(); });
+
+    public void Dispose()
+    {
+        ReelStats.Changed -= OnChanged;
+        _timer?.Dispose();
+    }
+}

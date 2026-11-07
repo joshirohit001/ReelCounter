@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="accessibility_description">Counts reels you scroll in Instagram, YouTube Shorts and Facebook, and warns you when you scroll too much. Nothing is recorded or sent anywhere.</string>
+</resources>

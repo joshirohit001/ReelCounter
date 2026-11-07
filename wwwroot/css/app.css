@@ -1,0 +1,15 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; background: #101418; color: #eef1f4; }
+.wrap { padding: 20px 16px 40px; max-width: 480px; margin: 0 auto; }
+h1 { font-size: 22px; margin: 8px 0 16px; }
+.card { background: #1b2229; border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+.card.ok { background: #14301f; }
+.card.warn { background: #3a2a10; }
+.card.alert { background: #5a1616; }
+.card.big { text-align: center; }
+.num { display: block; font-size: 64px; font-weight: 800; line-height: 1.1; }
+small { opacity: .7; }
+.row { display: flex; justify-content: space-between; font-size: 18px; }
+.hint { font-size: 12px; opacity: .75; }
+button { width: 100%; padding: 12px; border: 0; border-radius: 12px; background: #3b82f6; color: #fff; font-size: 15px; margin-top: 8px; }
+button.ghost { background: #2a343d; }
