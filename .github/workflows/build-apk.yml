@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,3 +38,12 @@ jobs:
           name: ReelCounter-apk
           path: out/**/*-Signed.apk
           if-no-files-found: error
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          APK=$(find out -name '*-Signed.apk' | head -n1)
+          cp "$APK" ReelCounter.apk
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest ReelCounter.apk --title "ReelCounter APK" --notes "Latest build" --target "$GITHUB_SHA"
